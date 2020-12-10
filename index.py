@@ -162,5 +162,5 @@ if (MODE==0):
 else:
 	f=glob.glob("./json/*.json")[-1]
 	NN=NeuralNetwork(json.loads(open(f,"r").read()))
-	S="Hej lubiÄ™ you!"
+	S="Hej lubię you!"
 	grammar_correction(S)
