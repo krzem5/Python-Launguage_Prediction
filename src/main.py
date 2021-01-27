@@ -1,5 +1,4 @@
 from nn.nn import NeuralNetwork
-from unidecode import unidecode
 import glob
 import json
 import os
@@ -67,7 +66,7 @@ def train(NN,t,BS,log=True,S=0):
 
 
 def transform_s(S):
-	S=unidecode(str(S)).lower()
+	S="".join([e for e in list(str(S).lower()) if ord(e)<127])
 	N=""
 	for k in S:
 		if (k==" " or k in ALPHABET):
