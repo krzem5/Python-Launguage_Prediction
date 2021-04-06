@@ -11,7 +11,6 @@ LANG_LIST="pl,en".split(",")
 ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MAX_LETTERS=12
 WORDS={}
-MODE=1
 
 
 
@@ -109,7 +108,7 @@ def predict_sentence(S):
 
 
 
-def grammar_correction(SW):
+def grammar_correction(SW,NN):
 	S=transform_s(SW)
 	a=[0]*len(LANG_LIST)
 	d={}
@@ -144,12 +143,7 @@ def grammar_correction(SW):
 
 
 
-def closest_word(W):
-	print("CLOSEST",WORDS,W)
-
-
-
-if (MODE==0):
+def train_mode():
 	f=glob.glob("./json/*.json")[-1]
 	if (os.path.isfile(f)):
 		NN=NeuralNetwork(json.loads(open(f,"r").read()))
@@ -158,8 +152,16 @@ if (MODE==0):
 	NN.lr=0.0055
 	train(NN,100_000,10,S=int(f.rsplit("-",1)[1].split(".")[0]))
 	open("./json/NN-data-FULL.json","w").write(json.dumps(NN.toJSON(),indent=4,sort_keys=True))
-else:
+
+
+
+def test_mode():
 	f=glob.glob("./json/*.json")[-1]
 	NN=NeuralNetwork(json.loads(open(f,"r").read()))
 	S="Hej lubię you!"
-	grammar_correction(S)
+	grammar_correction(S,NN)
+
+
+
+# train_mode()
+test_mode()
