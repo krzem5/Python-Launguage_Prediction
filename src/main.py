@@ -55,9 +55,6 @@ def train(NN,t,BS,log=True,S=0):
 			l=int(i/t*10000)
 			print(f"{l/100}% complete... ({int((time.time()-st)*100)/100}s) Acc={NN.test(batch(1000),log=False)}%")
 			st=time.time()
-			# if (l>=100):
-			# 	if (os.path.isfile(f"./json/NN-data-{l-100}.json")):
-			# 		os.remove(f"./json/NN-data-{l-100}.json")
 			open(f"./json/NN-data-{l}.json","w").write(json.dumps(NN.toJSON(),indent=4,sort_keys=True))
 		for k in d:
 			NN.train(k[0],k[1])
@@ -144,20 +141,23 @@ def grammar_correction(SW,NN):
 
 
 def train_mode():
-	f=glob.glob("./json/*.json")[-1]
-	if (os.path.isfile(f)):
-		NN=NeuralNetwork(json.loads(open(f,"r").read()))
+	fp=glob.glob("./json/*.json")[-1]
+	if (os.path.isfile(fp)):
+		with open(f,"r") as f:
+			NN=NeuralNetwork(json.loads(f.read()))
 	else:
 		NN=NeuralNetwork(len(ALPHABET)*MAX_LETTERS,[MAX_LETTERS+2],len(LANG_LIST),lr=0.0075)
 	NN.lr=0.0055
 	train(NN,100_000,10,S=int(f.rsplit("-",1)[1].split(".")[0]))
-	open("./json/NN-data-FULL.json","w").write(json.dumps(NN.toJSON(),indent=4,sort_keys=True))
+	with open("./json/NN-data-FULL.json","w") as f:
+		f.write(json.dumps(NN.toJSON(),indent=4,sort_keys=True))
 
 
 
 def test_mode():
-	f=glob.glob("./json/*.json")[-1]
-	NN=NeuralNetwork(json.loads(open(f,"r").read()))
+	fp=glob.glob("./json/*.json")[-1]
+	with open(fp,"r") as f:
+		NN=NeuralNetwork(json.loads(f.read()))
 	S="Hej lubię you!"
 	grammar_correction(S,NN)
 
