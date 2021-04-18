@@ -143,7 +143,7 @@ def grammar_correction(SW,NN):
 def train_mode():
 	fp=glob.glob("./json/*.json")[-1]
 	if (os.path.isfile(fp)):
-		with open(f,"r") as f:
+		with open(fp,"r") as f:
 			NN=NeuralNetwork(json.loads(f.read()))
 	else:
 		NN=NeuralNetwork(len(ALPHABET)*MAX_LETTERS,[MAX_LETTERS+2],len(LANG_LIST),lr=0.0075)
