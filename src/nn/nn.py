@@ -3,6 +3,10 @@ import math
 
 
 
+__all__=["ActivationFunction","SIGMOID","TANH","NeuralNetwork"]
+
+
+
 class ActivationFunction:
 	def __init__(self,f,df):
 		self.f=f

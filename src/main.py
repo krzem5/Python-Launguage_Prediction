@@ -148,7 +148,7 @@ def train_mode():
 	else:
 		NN=NeuralNetwork(len(ALPHABET)*MAX_LETTERS,[MAX_LETTERS+2],len(LANG_LIST),lr=0.0075)
 	NN.lr=0.0055
-	train(NN,100_000,10,S=int(f.rsplit("-",1)[1].split(".")[0]))
+	train(NN,100_000,10,S=10)
 	with open("./json/NN-data-FULL.json","w") as f:
 		f.write(json.dumps(NN.toJSON(),indent=4,sort_keys=True))
 
